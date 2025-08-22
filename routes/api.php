@@ -129,6 +129,7 @@ Route::post('/private-trips/{privateTrip}/choose-room', [PrivateTripController::
 
 Route::get('/days/{dayId}', [PrivateTripController::class, 'showDay']);
 Route::post('/days/{dayId}/add-element', [PrivateTripController::class, 'addElement']);
+Route::delete('/days/{dayId}/remove-element', [PrivateTripController::class, 'removeElement']);
 
 Route::get('/private_trip_details/{privateTrip}', [PrivateTripController::class, 'show']);//grt private trip details
 

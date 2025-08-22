@@ -41,10 +41,8 @@ Route::middleware(['auth', AdminUsersMiddleware::class])->group(function () {
 
 
 Route::middleware(['auth', AdminTripsMiddleware::class])->group(function () {
-    Route::get('/dashboard', [AdminTripController::class, 'dashboard'])->name('dashboard');
-//  Route::get('/create', [AdminTripController::class, 'create'])->name('admin_trips.create');
-//     Route::post('/', [AdminTripController::class, 'store'])->name('admin_trips.store');
-    
+   Route::get('/dashboard', [AdminTripController::class, 'dashboard'])->name('dashboard');
+
     Route::get('create/step1', [AdminTripController::class, 'createStep1'])->name('trips.create.step1');
     Route::post('create/step1', [AdminTripController::class, 'storeStep1'])->name('trips.store.step1');
 
@@ -55,9 +53,12 @@ Route::middleware(['auth', AdminTripsMiddleware::class])->group(function () {
     Route::post('create/step3', [AdminTripController::class, 'storeStep3'])->name('trips.store.step3');
 
     Route::get('create/step4', [AdminTripController::class, 'createStep4'])->name('trips.create.step4');
-    Route::post('create/step4', [AdminTripController::class, 'storeStep4'])->name('trips.store.step4');
+    Route::post('create/step4', [AdminTripController::class, 'storeFinal'])->name('trips.store.final');  
 
-    Route::post('store-final', [AdminTripController::class, 'storeFinal'])->name('trips.store.final');
+
+    Route::get('/trips/{trip}/edit', [AdminTripController::class, 'edit'])->name('trips.edit');
+    Route::put('/trips/{trip}', [AdminTripController::class, 'update'])->name('trips.update');
+    Route::delete('/trips/{trip}', [AdminTripController::class, 'destroy'])->name('trips.destroy');
 });
 
 

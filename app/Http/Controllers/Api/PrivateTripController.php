@@ -259,4 +259,53 @@ public function chooseTourGuide(Request $request, Private_trip $privateTrip)
     return response()->json(['message' => 'تمت إضافة العنصر لليوم بنجاح']);
 }
 
+public function removeElement(Request $request, $dayId)
+{
+    $day = Day::findOrFail($dayId);
+
+    $request->validate([
+        'type' => 'required|in:activity,place,restaurant',
+        'element_id' => 'required|integer'
+    ]);
+
+    $exists = false;
+
+    switch ($request->type) {
+        case 'activity':
+            $exists = $day->activities()
+                ->where('activities.id', $request->element_id)
+                ->exists();
+            if ($exists) {
+                $day->activities()->detach($request->element_id);
+            }
+            break;
+
+        case 'place':
+            $exists = $day->places()
+                ->where('places.id', $request->element_id)
+                ->exists();
+            if ($exists) {
+                $day->places()->detach($request->element_id);
+            }
+            break;
+
+        case 'restaurant':
+            $exists = $day->restaurants()
+                ->where('restaurants.id', $request->element_id)
+                ->exists();
+            if ($exists) {
+                $day->restaurants()->detach($request->element_id);
+            }
+            break;
+    }
+
+    if (! $exists) {
+        return response()->json([
+            'message' => 'العنصر غير موجود في هذا اليوم'
+        ], 404);
+    }
+
+    return response()->json(['message' => 'تم حذف العنصر من اليوم بنجاح']);
+}
+
 }
